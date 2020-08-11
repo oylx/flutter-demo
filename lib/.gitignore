@@ -72,3 +72,13 @@ res/
 android/*
 ios/*
 
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+ios
