@@ -1,76 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp("Hi xiaoqi"));
 
+class MyApp extends StatefulWidget {
+  String content;
+  MyApp(this.content);
 
-class RandomWordsState extends State<RandomWords> {
-
-  final _suggestions = <WordPair>[];
-  final _saved = new Set<WordPair>();
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  @override 
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(title: new Text('appBar')),
-      body: _buildSuggestions()
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return new ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: (context, i) {
-        print('i:${i}');
-        if(i.isOdd) return new Divider();
-        final index = i~/2;
-        if(index >= _suggestions.length) {
-          print(_suggestions);
-          _suggestions.addAll(generateWordPairs().take(10));
-        }
-        return _buildRow(_suggestions[index]);
-      },
-    );
-  }
-
-  Widget _buildRow(WordPair pair) {
-    final alreadySaved = _saved.contains(pair);
-    return new ListTile(
-      title: new Text(
-        pair.asCamelCase,
-        style: _biggerFont,
-      ),
-      trailing: new Icon(
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
-      ),
-      onTap: () {
-        setState(() {
-          if(alreadySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      },
-    );
-  }
-}
-
-class RandomWords extends StatefulWidget {
   @override
-  createState() => new RandomWordsState();
+  createState() => MyAppState();
 }
 
-class MyApp extends StatelessWidget {
+class MyAppState extends State<MyApp> {
+  bool isShowText = true;
+
+  void increment() {
+    setState(() {
+      print(widget.content);
+      widget.content += "d";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print("initState");
+    context.runtimeType;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("didChangeDependencies");
+  }
+
+  @override
+  void didUpdateWidget(MyApp oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("didUpdateWidget");
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'title',
-      home: new RandomWords(),
-    );
+    print("build");
+    return MaterialApp(
+        title: 'title',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("Widget -- StatefulWidget及State"),
+          ),
+          body: Center(
+              child: GestureDetector(
+            child: isShowText ? Text(widget.content) : null,
+            onTap: increment,
+          )),
+        ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("dispose");
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    print("reassemble");
   }
 }
-
-
