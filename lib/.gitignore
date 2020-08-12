@@ -73,6 +73,8 @@ android/*
 ios/*
 
 # Editor directories and files
+build
+.dart_tool
 .idea
 .vscode
 *.suo
